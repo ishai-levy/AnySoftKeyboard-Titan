@@ -60,6 +60,7 @@ public class CandidateView extends View implements ThemeableChild {
   private static final int OUT_OF_BOUNDS_X_CORD = -1;
   private int mTouchX = OUT_OF_BOUNDS_X_CORD;
   private static final int MAX_SUGGESTIONS = 32;
+  private static final int MAX_VISIBLE_SUGGESTIONS = 3;
   private final int[] mWordWidth = new int[MAX_SUGGESTIONS];
   private final int[] mWordX = new int[MAX_SUGGESTIONS];
   private static final int SCROLL_PIXELS = 20;
@@ -278,8 +279,10 @@ public class CandidateView extends View implements ThemeableChild {
     final boolean scrolled = mScrolled;
 
     final ThemeResourcesHolder themeResources = mThemeOverlayCombiner.getThemeResources();
+    final int visibleCount = Math.min(count, MAX_VISIBLE_SUGGESTIONS);
+    final int slotWidth = getWidth() / MAX_VISIBLE_SUGGESTIONS;
     int x = 0;
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < visibleCount; i++) {
       CharSequence suggestion = mSuggestions.get(i);
       if (suggestion == null) {
         continue;
@@ -300,15 +303,8 @@ public class CandidateView extends View implements ThemeableChild {
         paint.setColor(themeResources.getHintTextColor());
       }
 
-      // now that we set the typeFace, we can measure
-      int wordWidth;
-      if ((wordWidth = mWordWidth[i]) == 0) {
-        float textWidth = paint.measureText(suggestion, 0, wordLength);
-        // wordWidth = Math.max(0, (int) textWidth + X_GAP * 2);
-        wordWidth = (int) (textWidth + mHorizontalGap * 2);
-        mWordWidth[i] = wordWidth;
-      }
-
+      final int wordWidth = slotWidth;
+      mWordWidth[i] = wordWidth;
       mWordX[i] = x;
 
       if (touchX != OUT_OF_BOUNDS_X_CORD
@@ -351,7 +347,7 @@ public class CandidateView extends View implements ThemeableChild {
       canvas.translate(x + wordWidth, 0);
       // Draw a divider unless it's after the hint
       // or the last suggested word
-      if (count > 1 && !mShowingAddToDictionary && i != (count - 1)) {
+      if (visibleCount > 1 && !mShowingAddToDictionary && i != (visibleCount - 1)) {
         canvas.translate(0, dividerYOffset);
         mDivider.draw(canvas);
         canvas.translate(0, -dividerYOffset);

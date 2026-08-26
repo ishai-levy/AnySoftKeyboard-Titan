@@ -10,4 +10,5 @@
     <Keyboard nameResId="@string/hebrew_keyboard" iconResId="@drawable/ic_status_hebrew" layoutResId="@xml/heb_phonetic" id="2A6F3AC4-D083-11DF-A4A7-3882DFD72085" defaultDictionaryLocale="iw" additionalIsLetterExceptions="@string/hebrew_additional_is_letter_exceptions" physicalKeyboardMappingResId="@xml/heb_physical" description="פונטית" index="4" />
     
     <Keyboard nameResId="@string/hebrew_keyboard" iconResId="@drawable/ic_status_hebrew" layoutResId="@xml/heb_qwerty" id="3213630a-3284-4f46-8137-eef38adb5691" defaultDictionaryLocale="iw" additionalIsLetterExceptions="@string/hebrew_additional_is_letter_exceptions" physicalKeyboardMappingResId="@xml/heb_physical_for_moto_pro" description="For Motorola Defy Pro physical keyboard" index="5" />
+    <Keyboard nameResId="@string/hebrew_keyboard" iconResId="@drawable/ic_status_hebrew" layoutResId="@xml/heb_qwerty" id="8e5676c2-71d1-4d63-b481-2a1a16f85a23" defaultDictionaryLocale="iw" additionalIsLetterExceptions="@string/hebrew_additional_is_letter_exceptions" physicalKeyboardMappingResId="@xml/heb_physical_titan" description="For Unihertz Titan 2 physical keyboard" index="6" />
 </Keyboards>

@@ -12,6 +12,31 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <EditText
+            android:id="@+id/quick_text_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=""
+            android:inputType="text"
+            android:imeOptions="actionSearch"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:drawableStart="@drawable/sym_keyboard_search_light"
+            android:drawablePadding="8dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:background="@android:color/transparent"
+            android:importantForAutofill="no" />
+
+        <FrameLayout
+            android:id="@+id/quick_text_search_results"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="gone" />
+
         <com.astuetz.PagerSlidingTabStrip
             android:id="@+id/pager_tabs"
             android:layout_width="match_parent"

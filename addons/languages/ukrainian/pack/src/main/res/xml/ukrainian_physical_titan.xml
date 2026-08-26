@@ -12,10 +12,10 @@
         keySequence="KEYCODE_Z,KEYCODE_Z"
         targetChar="ч" />
     <SequenceMapping
-        keySequence="KEYCODE_U, KEYCODE_U"
+        keySequence="KEYCODE_U,KEYCODE_U"
         targetChar="ю" />
     <SequenceMapping
-        keySequence="KEYCODE_K, KEYCODE_K"
+        keySequence="KEYCODE_K,KEYCODE_K"
         targetChar="ж" />
     <SequenceMapping
         keySequence="KEYCODE_E,KEYCODE_E"

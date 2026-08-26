@@ -49,4 +49,10 @@
         id="e44fbe81-fdcc-4e02-82bd-2fc46db5efff" description="@string/czech_keyboard_swiftkey_description"
         index="6" physicalKeyboardMappingResId="@xml/czech_qwertz_physical"
         defaultDictionaryLocale="cs" />
+
+    <Keyboard nameResId="@string/czech_qwertz_keyboard" iconResId="@drawable/ic_status_czech"
+        layoutResId="@xml/czech_qwertz"  landscapeResId="@xml/czech_qwertz"
+        id="a0f1e2d3-c4b5-4a6b-9c8d-7e6f5a4b3c2d" description="For Unihertz Titan 2 physical keyboard"
+        index="7" physicalKeyboardMappingResId="@xml/czech_physical_titan"
+        defaultDictionaryLocale="cs" />
 </Keyboards>

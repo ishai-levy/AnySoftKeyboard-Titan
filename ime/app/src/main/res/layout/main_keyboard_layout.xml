@@ -39,5 +39,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="0px"
-        android:padding="0px" />
+        android:padding="0px"
+        android:visibility="gone" />
 </com.anysoftkeyboard.keyboards.views.KeyboardViewContainerView>

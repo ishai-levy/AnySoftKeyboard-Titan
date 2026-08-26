@@ -164,6 +164,33 @@
     <string name="hide_soft_when_physical_off_summary">Show soft keyboard when physical keyboard is
         used
     </string>
+    <string name="show_full_keyboard_action">Show full keyboard</string>
+    <string name="nav_action_home">Move cursor to start of line</string>
+    <string name="nav_action_left">Move cursor left</string>
+    <string name="nav_action_right">Move cursor right</string>
+    <string name="nav_action_end">Move cursor to end of line</string>
+    <string name="titan_toolbar_action_hyphen">Hyphen</string>
+    <string name="titan_toolbar_action_comma">Comma</string>
+    <string name="titan_toolbar_action_apostrophe">Apostrophe</string>
+    <string name="titan_toolbar_action_exclamation">Exclamation mark</string>
+    <string name="titan_toolbar_action_question">Question mark</string>
+    <string name="titan_toolbar_action_period">Period</string>
+    <string name="titan_toolbar_action_symbols">More symbols</string>
+    <string name="titan_toolbar_question_label">\?</string>
+    <string name="titan_toolbar_symbols_label">\?!#</string>
+    <string name="titan_toolbar_action_language">Switch language</string>
+    <string name="titan_toolbar_action_emoji">Open emoji keyboard</string>
+    <string name="search_emojis_hint">Search emojis…</string>
+    <string name="titan_toolbar_action_copy">Copy</string>
+    <string name="titan_toolbar_action_paste">Paste</string>
+    <string name="titan_toolbar_action_select_all">Select all</string>
+    <string name="titan_toolbar_action_delete">Delete</string>
+    <string name="titan_toolbar_action_left">Move cursor left</string>
+    <string name="titan_toolbar_action_right">Move cursor right</string>
+    <string name="titan_toolbar_action_up">Move cursor up</string>
+    <string name="titan_toolbar_action_down">Move cursor down</string>
+    <string name="titan_toolbar_action_dpad">Cursor control</string>
+    <string name="titan_toolbar_action_hamburger">Toggle toolbar</string>
     <string name="enable_alt_space_language_shortcut">Alt + Space switches languages</string>
     <string name="enable_alt_space_language_shortcut_on_summary">Hardware Alt + Space switches to the next available layout.</string>
     <string name="enable_alt_space_language_shortcut_off_summary">Hardware Alt + Space enters a space.</string>

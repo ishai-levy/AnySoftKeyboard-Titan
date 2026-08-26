@@ -43,6 +43,10 @@
     <dimen name="inline_suggestion_max_height">88dp</dimen>
 
     <dimen name="candidate_strip_height">36dp</dimen>
+    <dimen name="titan_toolbar_grid_cell_size">32dp</dimen>
+    <dimen name="titan_toolbar_divider_width">2dp</dimen>
+    <dimen name="titan_toolbar_row_height">44dp</dimen>
+    <dimen name="titan_toolbar_bottom_margin">24dp</dimen>
     <dimen name="candidate_font_height">18sp</dimen>
     <dimen name="candidate_strip_x_gap">15dp</dimen>
     <dimen name="candidate_min_touchable_width">0.3in</dimen>

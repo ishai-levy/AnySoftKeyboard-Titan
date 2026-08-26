@@ -43,6 +43,7 @@ public class KeyboardViewContainerView extends ViewGroup implements ThemeableChi
   private ClicksExtraDraw mClicksDrawer;
 
   private int mBottomPadding;
+  private boolean mPinActionStripToBottom;
 
   public KeyboardViewContainerView(Context context) {
     super(context);
@@ -126,15 +127,13 @@ public class KeyboardViewContainerView extends ViewGroup implements ThemeableChi
     mShowActionStrip = requestedVisibility;
     if (mCandidateView != null) {
       // calculating the actual needed visibility:
-      // at least one visible view which is a ActionsStripSupportedChild
+      // at least one ActionsStripSupportedChild present (regardless of its own visibility)
       var visible = false;
       for (int childIndex = 0; childIndex < getChildCount(); childIndex++) {
         var child = getChildAt(childIndex);
-        if (child.getVisibility() == View.VISIBLE) {
-          if (child instanceof ActionsStripSupportedChild) {
-            visible = requestedVisibility;
-            break;
-          }
+        if (child instanceof ActionsStripSupportedChild) {
+          visible = requestedVisibility;
+          break;
         }
       }
 
@@ -204,24 +203,49 @@ public class KeyboardViewContainerView extends ViewGroup implements ThemeableChi
     final int left = l + getPaddingLeft();
     final int right = r - getPaddingRight();
     int currentTop = t + getPaddingTop();
-    final int actionsTop = t + getPaddingTop();
-    int actionRight = r - getPaddingRight();
-    for (int i = 0; i < count; i++) {
-      final View child = getChildAt(i);
-      if (child.getVisibility() == View.GONE) continue;
-      if (child.getTag(PROVIDER_TAG_ID) == null) {
-        child.layout(left, currentTop, right, currentTop + child.getMeasuredHeight());
-        currentTop += child.getMeasuredHeight();
-      } else {
-        // this is an action. It lives on the candidates-view
-        child.layout(
-            actionRight - child.getMeasuredWidth(),
-            actionsTop,
-            actionRight,
-            actionsTop + child.getMeasuredHeight());
-        actionRight -= child.getMeasuredWidth();
-      }
+
+    // Row 1: suggestions, full width, own row.
+    if (mCandidateView != null && mCandidateView.getVisibility() != View.GONE) {
+      mCandidateView.layout(left, currentTop, right, currentTop + mCandidateView.getMeasuredHeight());
+      currentTop += mCandidateView.getMeasuredHeight();
     }
+
+    // When the Titan toolbar is active we want the action strip/toolbar pinned to the bottom
+    // so that popups (emoji, utility, etc.) and the symbols keyboard can fill the screen above
+    // it. In normal soft-keyboard mode the action strip stays above the keyboard grid as before.
+    if (!mPinActionStripToBottom) {
+      // Row 2: action icons at the top, then the main keyboard grid below.
+      int maxActionHeight = layoutActionStrip(left, right, currentTop);
+      currentTop += maxActionHeight;
+
+      // Remaining rows: main keyboard grid, extension rows, stacked full-width.
+      for (int i = 0; i < count; i++) {
+        final View child = getChildAt(i);
+        if (child == mCandidateView) continue;
+        if (child.getVisibility() == View.GONE) continue;
+        if (child.getTag(PROVIDER_TAG_ID) == null) {
+          child.layout(left, currentTop, right, currentTop + child.getMeasuredHeight());
+          currentTop += child.getMeasuredHeight();
+        }
+      }
+    } else {
+      // Remaining rows first (popups, hidden keyboard placeholder), then the action strip
+      // pinned at the bottom of the container.
+      for (int i = 0; i < count; i++) {
+        final View child = getChildAt(i);
+        if (child == mCandidateView) continue;
+        if (child.getVisibility() == View.GONE) continue;
+        if (child.getTag(PROVIDER_TAG_ID) == null) {
+          child.layout(left, currentTop, right, currentTop + child.getMeasuredHeight());
+          currentTop += child.getMeasuredHeight();
+        }
+      }
+
+      int maxActionHeight = computeActionStripHeight();
+      int actionStripTop = b - getPaddingBottom() - maxActionHeight;
+      layoutActionStrip(left, right, actionStripTop);
+    }
+
     // setting up the extra-offset for the main-keyboard
     final var mainKeyboard = ((View) mStandardKeyboardView);
     mainKeyboard.getHitRect(mExtraPaddingToMainKeyboard);
@@ -229,23 +253,63 @@ public class KeyboardViewContainerView extends ViewGroup implements ThemeableChi
     mExtraPaddingToMainKeyboard.top = mainKeyboard.getTop() - mActionStripHeight / 4;
   }
 
+  private int computeActionStripHeight() {
+    int maxActionHeight = 0;
+    final int count = getChildCount();
+    for (int i = 0; i < count; i++) {
+      final View child = getChildAt(i);
+      if (child == mCandidateView) continue;
+      if (child.getVisibility() == View.GONE) continue;
+      if (child.getTag(PROVIDER_TAG_ID) != null) {
+        maxActionHeight = Math.max(maxActionHeight, child.getMeasuredHeight());
+      }
+    }
+    return maxActionHeight;
+  }
+
+  private int layoutActionStrip(int left, int right, int top) {
+    int actionRight = right;
+    int maxActionHeight = 0;
+    final int count = getChildCount();
+    for (int i = 0; i < count; i++) {
+      final View child = getChildAt(i);
+      if (child == mCandidateView) continue;
+      if (child.getVisibility() == View.GONE) continue;
+      if (child.getTag(PROVIDER_TAG_ID) != null) {
+        child.layout(
+                actionRight - child.getMeasuredWidth(),
+                top,
+                actionRight,
+                top + child.getMeasuredHeight());
+        actionRight -= child.getMeasuredWidth();
+        maxActionHeight = Math.max(maxActionHeight, child.getMeasuredHeight());
+      }
+    }
+    return maxActionHeight;
+  }
+
   @Override
   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-    int totalWidth = 0;
-    int totalHeight = mCandidateView.getVisibility() == View.VISIBLE ? mActionStripHeight : 0;
+    int totalWidth = View.MeasureSpec.getSize(widthMeasureSpec);
+    int totalHeight = 0;
+    int maxActionHeight = 0;
     final int count = getChildCount();
     for (int i = 0; i < count; i++) {
       final View child = getChildAt(i);
       if (child.getVisibility() == View.GONE) continue;
-      if (child.getTag(PROVIDER_TAG_ID) != null || child == mCandidateView) {
-        // this is an action. we just need to make sure it is measured.
+      if (child.getTag(PROVIDER_TAG_ID) != null) {
         measureChild(child, widthMeasureSpec, heightMeasureSpec);
+        maxActionHeight = Math.max(maxActionHeight, child.getMeasuredHeight());
+      } else if (child == mCandidateView) {
+        measureChild(child, widthMeasureSpec, heightMeasureSpec);
+        totalHeight += mActionStripHeight;
       } else {
         measureChild(child, widthMeasureSpec, heightMeasureSpec);
         totalWidth = Math.max(totalWidth, child.getMeasuredWidth());
         totalHeight += child.getMeasuredHeight();
       }
     }
+    totalHeight += maxActionHeight;
 
     setMeasuredDimension(totalWidth, totalHeight);
   }
@@ -275,6 +339,16 @@ public class KeyboardViewContainerView extends ViewGroup implements ThemeableChi
     return mStandardKeyboardView;
   }
 
+  public void setStandardKeyboardViewShown(boolean shown) {
+    if (mStandardKeyboardView instanceof View standardView) {
+      standardView.setVisibility(shown ? View.VISIBLE : View.GONE);
+      if (!shown) {
+        setActionsStripVisibility(true);
+      }
+      requestLayout();
+    }
+  }
+
   @Override
   public void setKeyboardTheme(KeyboardTheme theme) {
     mKeyboardTheme = theme;
@@ -298,6 +372,11 @@ public class KeyboardViewContainerView extends ViewGroup implements ThemeableChi
         v.setBottomOffset(bottomPadding);
       }
     }
+  }
+
+  public void setPinActionStripToBottom(boolean pinActionStripToBottom) {
+    mPinActionStripToBottom = pinActionStripToBottom;
+    requestLayout();
   }
 
   public interface StripActionProvider {

@@ -2,4 +2,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="ime_name"
             tools:ignore="MissingTranslation">AnySoftKeyboard Dev</string>
+    <string name="show_full_keyboard_action">Show full keyboard</string>
+    <string name="nav_action_home">Move to line start</string>
+    <string name="nav_action_left">Move cursor left</string>
+    <string name="nav_action_right">Move cursor right</string>
+    <string name="nav_action_end" tools:ignore="MissingTranslation">Move to line end</string>
 </resources>

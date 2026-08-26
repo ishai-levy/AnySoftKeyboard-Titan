@@ -26,6 +26,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
@@ -48,6 +49,8 @@ import com.anysoftkeyboard.dictionaries.ExternalDictionaryFactory;
 import com.anysoftkeyboard.dictionaries.WordComposer;
 import com.anysoftkeyboard.ime.AnySoftKeyboardColorizeNavBar;
 import com.anysoftkeyboard.ime.InputViewBinder;
+import com.anysoftkeyboard.ime.TitanToolbarController;
+import com.anysoftkeyboard.keyboards.Keyboard;
 import com.anysoftkeyboard.keyboards.AnyKeyboard;
 import com.anysoftkeyboard.keyboards.CondenseType;
 import com.anysoftkeyboard.keyboards.Keyboard;
@@ -696,6 +699,57 @@ public abstract class AnySoftKeyboard extends AnySoftKeyboardColorizeNavBar {
       onFunctionKey(primaryCode, key, fromUI);
     }
     if (ic != null) ic.endBatchEdit();
+  }
+
+  @Override
+  protected void onQuickTextKeyboardRequested(Keyboard.Key key) {
+    final var container = getInputViewContainer();
+    final TitanToolbarController toolbarController = getTitanToolbarController();
+    final var toolbarView = toolbarController == null ? null : toolbarController.getActionView();
+    if (container == null || toolbarView == null) {
+      super.onQuickTextKeyboardRequested(key);
+      return;
+    }
+
+    // Let ASK create the popup, then resize it to the space above the toolbar and ensure
+    // the toolbar stays pinned at the bottom. Use the full window height so the popup can
+    // cover most of the screen.
+    final int toolbarHeight = toolbarView.getHeight();
+    final int candidateHeight =
+        container.getCandidateView() == null ? 0 : container.getCandidateView().getHeight();
+    final int emojiRowHeight = getResources().getDimensionPixelSize(R.dimen.default_key_height);
+    final int availableHeight = container.getRootView().getHeight();
+    super.onQuickTextKeyboardRequested(key);
+
+    final var popup = container.findViewById(R.id.quick_text_pager_root);
+    if (popup != null) {
+      final ViewGroup.LayoutParams params = popup.getLayoutParams();
+      params.height = Math.max(0, availableHeight - toolbarHeight - candidateHeight - emojiRowHeight);
+      popup.setLayoutParams(params);
+
+      // The ViewPager inside the popup is wrap-content by default; make it fill the popup
+      // height so the emoji grid is actually visible.
+      final View inner = popup instanceof ViewGroup ? ((ViewGroup) popup).getChildAt(0) : null;
+      if (inner != null) {
+        inner.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+        if (inner instanceof ViewGroup) {
+          final View pager = ((ViewGroup) inner).findViewById(R.id.quick_text_keyboards_pager);
+          if (pager != null) {
+            pager.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+          }
+        }
+      }
+
+      // Ensure the toolbar draws on top of the popup and is laid out after it.
+      container.bringChildToFront(toolbarView);
+
+      // Keep the search field unfocused so physical keyboard keystrokes are routed into it
+      // by AnySoftKeyboardHardware rather than being consumed by the system dispatcher.
+      final View searchEdit = popup.findViewById(R.id.quick_text_search);
+      if (searchEdit != null) {
+        searchEdit.clearFocus();
+      }
+    }
   }
 
   private boolean isTerminalEmulation() {
