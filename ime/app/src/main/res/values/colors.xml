@@ -63,6 +63,9 @@
     <color name="aosp_dark_background">#32373A</color>
     <color name="aosp_dark_suggestions_background">#222</color>
 
+    <color name="titan_toolbar_button_background">#3A3A3A</color>
+    <color name="titan_toolbar_button_background_pressed">#4A4A4A</color>
+
     <color name="aosp_light_background">#DDD</color>
     <color name="aosp_light_suggestions_background">#AAA</color>
 </resources>
