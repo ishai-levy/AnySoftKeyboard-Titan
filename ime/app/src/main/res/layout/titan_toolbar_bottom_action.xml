@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/titan_toolbar_row_height"
+    android:orientation="horizontal"
+    android:gravity="center_vertical">
+
+    <TextView
+        android:id="@+id/titan_toolbar_hyphen"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/titan_toolbar_row_height"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/titan_toolbar_action_hyphen"
+        android:gravity="center"
+        android:text="-"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="@dimen/titan_toolbar_divider_width"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/titan_toolbar_comma"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/titan_toolbar_row_height"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/titan_toolbar_action_comma"
+        android:gravity="center"
+        android:text=","
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="@dimen/titan_toolbar_divider_width"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/titan_toolbar_apostrophe"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/titan_toolbar_row_height"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/titan_toolbar_action_apostrophe"
+        android:gravity="center"
+        android:text="'"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="@dimen/titan_toolbar_divider_width"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/titan_toolbar_exclamation"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/titan_toolbar_row_height"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/titan_toolbar_action_exclamation"
+        android:gravity="center"
+        android:text="!"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="@dimen/titan_toolbar_divider_width"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/titan_toolbar_question"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/titan_toolbar_row_height"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/titan_toolbar_action_question"
+        android:gravity="center"
+        android:text="@string/titan_toolbar_question_label"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="@dimen/titan_toolbar_divider_width"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/titan_toolbar_period"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/titan_toolbar_row_height"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/titan_toolbar_action_period"
+        android:gravity="center"
+        android:text="."
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <View
+        android:layout_width="@dimen/titan_toolbar_divider_width"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/titan_toolbar_language"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/titan_toolbar_row_height"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/titan_toolbar_action_language"
+        android:gravity="center"
+        android:text="EN"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="@dimen/titan_toolbar_divider_width"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/titan_toolbar_symbols"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/titan_toolbar_row_height"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/titan_toolbar_action_symbols"
+        android:gravity="center"
+        android:text="@string/titan_toolbar_symbols_label"
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
+
+    <View
+        android:layout_width="@dimen/titan_toolbar_divider_width"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/titan_toolbar_hamburger"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/titan_toolbar_row_height"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/titan_toolbar_action_hamburger"
+        android:gravity="center"
+        android:text="☰"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+</LinearLayout>
