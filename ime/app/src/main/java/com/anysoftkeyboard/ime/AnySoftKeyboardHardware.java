@@ -391,7 +391,7 @@ public abstract class AnySoftKeyboardHardware extends AnySoftKeyboardPressEffect
         // so we disable it.
 
         // stopping any soft-keyboard prediction
-        abortCorrectionAndResetPredictionState(false);
+        //abortCorrectionAndResetPredictionState(false);
     }
 
     private void toggleSymbolsSoftKeyboard() {
