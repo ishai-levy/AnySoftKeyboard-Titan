@@ -391,6 +391,7 @@ public abstract class AnySoftKeyboardHardware extends AnySoftKeyboardPressEffect
         // so we disable it.
 
         // stopping any soft-keyboard prediction
+        //no idea why they did that, removing the
         //abortCorrectionAndResetPredictionState(false);
     }
 
