@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    No <subtype> entries declared on purpose: this service resolves whatever locale is
+    requested at query time, against whichever dictionary language packs happen to be
+    installed (see AnySoftKeyboardSpellCheckerService), rather than a fixed, build-time list.
+    The tradeoff: Android's Settings "Languages" picker for this checker won't show a nice
+    per-language list the way Gboard's does - it'll just work for any language we have a
+    dictionary for, silently, without needing a matching subtype declared here.
+-->
+<spell-checker xmlns:android="http://schemas.android.com/apk/res/android" />

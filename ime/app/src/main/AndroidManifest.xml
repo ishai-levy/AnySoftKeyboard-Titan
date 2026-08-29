@@ -58,6 +58,24 @@
                 android:resource="@xml/method" />
         </service>
 
+        <!-- Android's system spell-checker-service framework - separate from the IME above.
+        Lets AnySoftKeyboard be selected as the system spell checker (Settings -> System ->
+        Languages & input -> Spell checker), giving spelling-error underlines in any app, using
+        the same dictionaries the IME already loads for suggestions. -->
+        <service
+            android:name=".spellcheck.AnySoftKeyboardSpellCheckerService"
+            android:label="@string/ime_name"
+            android:exported="true"
+            android:permission="android.permission.BIND_TEXT_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.textservice.SpellCheckerService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.view.textservice.scs"
+                android:resource="@xml/spellchecker" />
+        </service>
+
         <!-- ui activities -->
         <!-- settings ui activities -->
         <!-- this is just a proxy activity, it does nothing but direct to the actual setting activity
