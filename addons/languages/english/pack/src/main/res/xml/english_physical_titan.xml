@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PhysicalTranslation
+    QwertyTranslation="qwertyuiopasdfghjklzxcvbnm">
+    <!-- Standard English QWERTY layout for the Unihertz Titan 2 physical keyboard.
+         Unlike english_physical.xml (empty - relies on Android's own default
+         hardware keymap fallback), this file gives AnySoftKeyboard's own key
+         translator something to match, so physical typing routes through
+         onKey()/handleCharacter() and suggestions actually engage. -->
+</PhysicalTranslation>

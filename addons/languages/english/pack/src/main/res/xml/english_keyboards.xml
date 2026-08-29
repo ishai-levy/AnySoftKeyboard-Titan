@@ -64,6 +64,6 @@
     <Keyboard nameResId="@string/minimal_qwerty_keyboard"
         layoutResId="@xml/english_titan" id="2e7bd200-6e4c-4442-b1d2-3f590e9b3f67"
         defaultDictionaryLocale="en" description="English for Uniherz Titan"
-        physicalKeyboardMappingResId="@xml/english_physical"
+        physicalKeyboardMappingResId="@xml/english_physical_titan"
         index="14"/>
 </Keyboards>
