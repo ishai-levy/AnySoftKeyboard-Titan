@@ -1,0 +1,60 @@
+From 6ed8b914b2c3941649f7931286966e64a5991bad Mon Sep 17 00:00:00 2001
+From: Claude <assistant@example.com>
+Date: Sat, 29 Aug 2026 05:57:23 +0000
+Subject: [PATCH] Add Titan-specific physical keyboard mapping for English
+
+english_physical.xml (the stock, non-Titan physical translation file)
+is empty, with no QwertyTranslation attribute and no SequenceMapping
+entries. Because of that, AnySoftKeyboardHardware's key translator
+never matches any physical keypress for English, so onKey()/
+handleCharacter() never fires and every keystroke falls through to
+Android's own default hardware keymap (super.onKeyDown()). Typing
+still works by coincidence - the Titan's QWERTY scancodes happen to
+map correctly via Android's own fallback - but it completely bypasses
+AnySoftKeyboard's suggestion engine, so English never produced
+spelling suggestions.
+
+Hebrew and Czech both already have dedicated _titan physical
+translation files with a proper QwertyTranslation base mapping, which
+is why they work correctly. This adds the equivalent for English:
+english_physical_titan.xml with QwertyTranslation="qwertyuiopasdfghjklzxcvbnm"
+(standard QWERTY row order, no remapping needed for English), and
+points the Titan English keyboard entry at it instead of the empty
+stock file.
+---
+ .../pack/src/main/res/xml/english_keyboards.xml        |  2 +-
+ .../pack/src/main/res/xml/english_physical_titan.xml   | 10 ++++++++++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
+ create mode 100644 addons/languages/english/pack/src/main/res/xml/english_physical_titan.xml
+
+diff --git a/addons/languages/english/pack/src/main/res/xml/english_keyboards.xml b/addons/languages/english/pack/src/main/res/xml/english_keyboards.xml
+index b8cc8f5..e4bc88b 100644
+--- a/addons/languages/english/pack/src/main/res/xml/english_keyboards.xml
++++ b/addons/languages/english/pack/src/main/res/xml/english_keyboards.xml
+@@ -64,6 +64,6 @@
+     <Keyboard nameResId="@string/minimal_qwerty_keyboard"
+         layoutResId="@xml/english_titan" id="2e7bd200-6e4c-4442-b1d2-3f590e9b3f67"
+         defaultDictionaryLocale="en" description="English for Uniherz Titan"
+-        physicalKeyboardMappingResId="@xml/english_physical"
++        physicalKeyboardMappingResId="@xml/english_physical_titan"
+         index="14"/>
+ </Keyboards>
+diff --git a/addons/languages/english/pack/src/main/res/xml/english_physical_titan.xml b/addons/languages/english/pack/src/main/res/xml/english_physical_titan.xml
+new file mode 100644
+index 0000000..3e44be2
+--- /dev/null
++++ b/addons/languages/english/pack/src/main/res/xml/english_physical_titan.xml
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++
++<PhysicalTranslation
++    QwertyTranslation="qwertyuiopasdfghjklzxcvbnm">
++    <!-- Standard English QWERTY layout for the Unihertz Titan 2 physical keyboard.
++         Unlike english_physical.xml (empty - relies on Android's own default
++         hardware keymap fallback), this file gives AnySoftKeyboard's own key
++         translator something to match, so physical typing routes through
++         onKey()/handleCharacter() and suggestions actually engage. -->
++</PhysicalTranslation>
+-- 
+2.43.0
+
