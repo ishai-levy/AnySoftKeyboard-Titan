@@ -262,6 +262,11 @@ public abstract class AnySoftKeyboardHardware extends AnySoftKeyboardPressEffect
                     // we'll try to make it nice.
                     if (ic != null) ic.beginBatchEdit();
                     try {
+                        if (keyEventKeyCode == KeyEvent.KEYCODE_DEL && !event.isShiftPressed()) {
+                            onKey(KeyCodes.DELETE, null, -1, new int[]{KeyCodes.DELETE}, true);
+                            if (ic != null) ic.endBatchEdit();
+                            return true;
+                        }
                         // issue 393, back-word on the hw keyboard!
                         if (mUseBackWord && keyEventKeyCode == KeyEvent.KEYCODE_DEL && event.isShiftPressed()) {
                             handleBackWord(ic);
